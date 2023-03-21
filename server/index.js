@@ -1,15 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const UserModel = require("./models/Users");
 const cors = require("cors"); // to connect to frontend
+const { deleteOne, findByIdAndDelete } = require("./models/Users");
 
 app.use(express.json()); // to pass json in post req of body.
 app.use(cors());
 
-mongoose.connect(
-  "mongodb+srv://username_kabi:password_kabi@basic-user.htwpkus.mongodb.net/?retryWrites=true&w=majority"
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.get("/getUsers", async (req, res) => {
   try {
